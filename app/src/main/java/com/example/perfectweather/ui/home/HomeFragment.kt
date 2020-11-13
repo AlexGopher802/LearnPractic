@@ -9,6 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.perfectweather.R
+import com.example.perfectweather.data.ApiWeather
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -27,5 +33,16 @@ class HomeFragment : Fragment() {
             textView.text = it
         })
         return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val apiService = ApiWeather()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val Weather = apiService.getCurrentWeather("Moscow").await()
+            text_home.text = Weather.toString()
+        }
     }
 }
