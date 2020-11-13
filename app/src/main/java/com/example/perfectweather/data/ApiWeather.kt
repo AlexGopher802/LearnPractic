@@ -28,7 +28,7 @@ interface ApiWeather {
                 val url = chain.request()
                     .url()
                     .newBuilder()
-                    .addQueryParameter("key", API_KEY)
+                    .addQueryParameter("appid", API_KEY)
                     .build()
                 val request = chain.request()
                     .newBuilder()
@@ -44,7 +44,7 @@ interface ApiWeather {
 
             return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl("https://api.openweathermap.org/data/2.5/")
+                .baseUrl("http://api.openweathermap.org/data/2.5/")
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
