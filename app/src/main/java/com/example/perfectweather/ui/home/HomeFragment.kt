@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class HomeFragment : Fragment() {
 
@@ -47,7 +48,7 @@ class HomeFragment : Fragment() {
         val cityName = arrayOf(
             "Москва",
             "Санкт-Петербург",
-            "Екатеринбург",
+            "Лондон",
             "Сызрань",
             "Рязань",
             "Тула",
@@ -76,8 +77,13 @@ class HomeFragment : Fragment() {
                 val apiService = ApiWeather()
 
                 GlobalScope.launch(Dispatchers.Main) {
-                    val Weather = apiService.getCurrentWeather(city).await()
-                    textView2.text = Weather.name.toString() + "  -  " + (Weather.main.temp.toInt() - 273).toString() + "C°"
+                    try{
+                        val Weather = apiService.getCurrentWeather(city).await()
+                        textView2.text = Weather.name.toString() + "  -  " + (Weather.main.temp.toInt() - 273).toString() + "C°"
+                    }
+                    catch (e: Exception){
+                        textView2.text = "Ошибка"
+                    }
                 }
             }
 
