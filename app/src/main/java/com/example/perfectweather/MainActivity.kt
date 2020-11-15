@@ -32,48 +32,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
-        GlobalScope.launch(Dispatchers.Main) {
-            val cityName = arrayOf(
-                "Москва",
-                "Санкт-Петербург",
-                "Екатеринбург",
-                "Сызрань",
-                "Рязань",
-                "Тула",
-                "Подольск",
-                "Балашиха",
-                "Мытищи",
-                "Королев",
-                "Долгопрудный",
-                "Химки",
-                "Красногорск",
-                "Одинцово",
-                "Троицк"
-            )
-
-            val adapter = ArrayAdapter(
-                this@MainActivity,
-                android.R.layout.simple_spinner_item,
-                cityName
-            )
-            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
-            blood_spinner?.adapter = adapter;
-        }
-
-
-        //val favCitiesInput = Array(15, {"Москва"; "Санкт-Петербург"; "Екатеринбург"; "Сызрань"; "Рязань"; "Тула"; "Подольск"; "Балашиха"; "Мытищи"; "Королев"; "Долгопрудный"; "Химки"; "Красногорск"; "Одинцово"; "Троицк"})
-
-        //val phones: Array<String> = arrayOf("Galaxy S8", "iPhone X", "Motorola C350")
-
-        /*val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            cityName
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
-        blood_spinner?.adapter = adapter;*/
-
+        //GlobalScope.launch(Dispatchers.Main) {
 
     }
 
@@ -84,6 +43,5 @@ class MainActivity : AppCompatActivity() {
             weatherInfo.text = UrlModel.sys.country.toString()
         }
     }*/
-
 
 }
