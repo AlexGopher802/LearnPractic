@@ -1,7 +1,9 @@
 package com.example.perfectweather.ui.home
 
 import android.app.Activity
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.Display
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.perfectweather.MainActivity
 import com.example.perfectweather.R
 import com.example.perfectweather.data.ApiWeather
+import com.example.perfectweather.ui.dashboard.DashboardFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +27,8 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class HomeFragment : Fragment() {
+
+
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -35,9 +40,7 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        //val textView: TextView = root.findViewById(R.id.text_home1)
         homeViewModel.text.observe(this, Observer {
-            //textView.text = it
         })
         return root
     }
@@ -45,51 +48,55 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val cityName = arrayOf(
-            "Москва",
-            "Санкт-Петербург",
-            "Лондон",
-            "Сызрань",
-            "Рязань",
-            "Тула",
-            "Подольск",
-            "Балашиха",
-            "Мытищи",
-            "Королев",
-            "Долгопрудный",
-            "Химки",
-            "Красногорск",
-            "Одинцово",
-            "Троицк"
-        )
+        var sharePref : SharedPreferences = parentFragment!!.requireContext().getSharedPreferences(MainActivity().PREF_NAME, MainActivity().PRIVATE_MODE)
+        val editor = sharePref.edit()
+
+        /*var citys = arrayOfNulls<String>(sharePref.getInt(MainActivity().FAVORITES_SIZE, 0))
+        if(citys.isEmpty()){
+            textView2.text = "Не выбрано"
+        }
+        else{
+            for(i in 0..sharePref.getInt(MainActivity().FAVORITES_SIZE, 0)){
+                citys[i] = sharePref.getString(MainActivity().FAVORITES_+i.toString(), "")
+            }
+        }*/
 
         val adapter = ArrayAdapter(
             parentFragment!!.requireContext(),
             android.R.layout.simple_spinner_item,
-            cityName
+            DashboardFragment().cityName
         )
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
         blood_spinner?.adapter = adapter
 
+        blood_spinner.setSelection(sharePref.getInt(MainActivity().SELECT_CITY, 0))
+
+
         blood_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
+                textView2.text = "Загрузка..."
                 val city : String = parent.getItemAtPosition(position).toString()
-                val apiService = ApiWeather()
+                editor.putInt(MainActivity().SELECT_CITY, position)
+                editor.apply()
 
-                GlobalScope.launch(Dispatchers.Main) {
-                    try{
-                        val Weather = apiService.getCurrentWeather(city).await()
-                        textView2.text = Weather.name.toString() + "  -  " + (Weather.main.temp.toInt() - 273).toString() + "C°"
-                    }
-                    catch (e: Exception){
-                        textView2.text = "Ошибка"
+                if(position == 0){
+                    textView2.text = "Не выбрано"
+                }
+                else{
+                    val apiService = ApiWeather()
+                    GlobalScope.launch(Dispatchers.Main) {
+                        try{
+                            val Weather = apiService.getCurrentWeather(city).await()
+                            textView2.text = Weather.name.toString() + "   " + (Weather.main.temp.toInt() - 273).toString() + "C°"
+                        }
+                        catch (e: Exception){
+                            textView2.text = "Ошибка"
+                        }
                     }
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>){
-                // Another interface callback
-            }
+            override fun onNothingSelected(parent: AdapterView<*>){ }
         }
 
         /*

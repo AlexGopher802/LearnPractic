@@ -1,5 +1,6 @@
 package com.example.perfectweather
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -18,6 +19,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    val SELECT_CITY = "select_city"
+    var PRIVATE_MODE = 0
+    val PREF_NAME = "mindorks-welcome"
+    val FAVORITES_SIZE = "favorites_size"
+    val FAVORITES_ = "favorites_"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

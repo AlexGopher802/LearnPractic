@@ -17,6 +17,24 @@ import kotlinx.coroutines.launch
 
 class DashboardFragment : Fragment() {
 
+    val cityName = arrayOf(
+        "Не выбрано",
+        "Москва",
+        "Санкт-Петербург",
+        "Лондон",
+        "Канада",
+        "Прага",
+        "Подольск",
+        "Берлин",
+        "Париж",
+        "Мытищи",
+        "Королев",
+        "Долгопрудный",
+        "Химки",
+        "Красногорск",
+        "Одинцово"
+    )
+
     private lateinit var dashboardViewModel: DashboardViewModel
 
     override fun onCreateView(
@@ -27,10 +45,17 @@ class DashboardFragment : Fragment() {
         dashboardViewModel =
             ViewModelProviders.of(this).get(DashboardViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        /*val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(this, Observer {
-            textView.text = it
-        })*/
         return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+    /*
+        val mdf = DialogWindow()
+        val manager = activity?.supportFragmentManager
+        if (manager != null) {
+            mdf.show(manager, "myDialog")
+        }
+    */
     }
 }
