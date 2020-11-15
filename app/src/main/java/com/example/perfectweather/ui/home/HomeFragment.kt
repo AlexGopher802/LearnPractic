@@ -28,9 +28,9 @@ class HomeFragment : Fragment() {
         homeViewModel =
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home1)
+        //val textView: TextView = root.findViewById(R.id.text_home1)
         homeViewModel.text.observe(this, Observer {
-            textView.text = it
+            //textView.text = it
         })
         return root
     }
@@ -43,8 +43,8 @@ class HomeFragment : Fragment() {
         GlobalScope.launch(Dispatchers.Main) {
             val Weather = apiService.getCurrentWeather("Moscow").await()
 
-            text_home1.text = Weather.name.toString()
-            text_home2.text = (Weather.main.temp.toFloat() - 273.15).toString() + "C°"
+            /*text_home1.text = Weather.name.toString()
+            text_home2.text = (Weather.main.temp.toFloat() - 273.15).toString() + "C°"*/
         }
     }
 }

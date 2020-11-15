@@ -18,8 +18,8 @@ interface ApiWeather {
 
     @GET("weather")
     fun getCurrentWeather(
-        @Query("q") location: String,
-        @Query("lang") languageCode: String = "ru"
+        @Query("q") location: String
+        //@Query("lang") languageCode: String = "ru"
     ): Deferred<Weather>
 
     companion object{
