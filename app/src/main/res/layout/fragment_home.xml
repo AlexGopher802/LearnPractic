@@ -18,20 +18,52 @@
         android:id="@+id/weatherTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0.54C°"
-        android:textSize="60dp"
+        android:text=""
+        android:textSize="60sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="100sp"
          />
 
     <TextView
         android:id="@+id/weatherDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Небольшой дождь°"
-        android:textSize="20dp"
+        android:text="Загрузка..."
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100sp"
+        />
+
+    <TextView
+        android:id="@+id/weatherAdvice"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:textSize="18sp"
         android:layout_below="@+id/weatherTemp"
         android:layout_centerHorizontal="true"
+        android:textAlignment="center"
         />
+
+    <ImageView
+        android:id="@+id/anim"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/weatherDescription"
+        android:layout_marginBottom="10sp"
+        />
+<!--
+    <TextView
+        android:id="@+id/debugText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="20dp"
+        android:layout_below="@+id/weatherAdvice"
+        android:layout_centerHorizontal="true"
+        />
+-->
 
 </RelativeLayout>

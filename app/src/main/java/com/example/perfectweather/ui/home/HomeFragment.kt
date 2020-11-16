@@ -3,6 +3,7 @@ package com.example.perfectweather.ui.home
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.Display
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
@@ -65,15 +67,12 @@ class HomeFragment : Fragment() {
             blood_spinner?.adapter = adapter
         }
 
-        blood_spinner.setSelection(sharePref.getInt(MainActivity().SELECT_CITY, 0))
-
         blood_spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
                 weatherTemp.text = ""
+                weatherAdvice.text = "..."
                 weatherDescription.text = "Загрузка..."
                 val city : String = parent.getItemAtPosition(position).toString()
-                editor?.putInt(MainActivity().SELECT_CITY, position)
-                editor?.apply()
 
                 val apiService = ApiWeather()
                 GlobalScope.launch(Dispatchers.Main) {
@@ -82,6 +81,49 @@ class HomeFragment : Fragment() {
                         val temp : Float = ((Weather.main.temp.toFloat() - 273.15f)*100).toInt().toFloat()/100
                         weatherTemp.text = temp.toString() + " c°"
                         weatherDescription.text = Weather.weather[0].description.toString()
+
+                        if(Weather.weather[0].main.toString() == "Snow"){
+                            weatherAdvice.text = "Надень тёплый свитер с оленями"
+
+                            anim.setBackgroundResource(R.drawable.snow)
+                            (anim.background as AnimationDrawable).start()
+                        }
+                        else if(Weather.weather[0].main.toString() == "Rain"){
+                            weatherAdvice.text = "На улице рейн, на душе пейн... Так что сиди дома"
+
+                            anim.setBackgroundResource(R.drawable.rain)
+                            (anim.background as AnimationDrawable).start()
+                        }
+                        else if(Weather.weather[0].main.toString() == "Drizzle"){
+                            weatherAdvice.text = "Ну моросит и моросит, можешь дождевик взять"
+
+                            anim.setBackgroundResource(R.drawable.rain)
+                            (anim.background as AnimationDrawable).start()
+                        }
+                        else if(Weather.weather[0].main.toString() == "Clear"){
+                            weatherAdvice.text = "Уфф, погода на ура, иди погуляй для приличия"
+
+                            anim.setBackgroundResource(R.drawable.clear)
+                            (anim.background as AnimationDrawable).start()
+                        }
+                        else if(Weather.weather[0].main.toString() == "Clouds"){
+                            weatherAdvice.text = "Можешь посмотреть на облака ¯\\_(ツ)_/¯"
+
+                            anim.setBackgroundResource(R.drawable.clouds)
+                            (anim.background as AnimationDrawable).start()
+                        }
+                        else if(Weather.weather[0].main.toString() == "Mist"){
+                            weatherAdvice.text = "Возьми серебряный меч, возможно встретишься с туманником"
+
+                            anim.setBackgroundResource(R.drawable.mist)
+                            (anim.background as AnimationDrawable).start()
+                        }
+                        else if(Weather.weather[0].main.toString() == "Fog"){
+                            weatherAdvice.text = "Видимость нулевая, включи противотуманки"
+
+                            anim.setBackgroundResource(R.drawable.mist)
+                            (anim.background as AnimationDrawable).start()
+                        }
                     }
                     catch (e: Exception){
                         weatherDescription.text = "Ошибка"

@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 
 class DialogWindow : DialogFragment(){
-    val checkItems = BooleanArray(15, {false})
+    val checkItems = BooleanArray(DashboardFragment().cityName.size, {false})
 
     override fun onCreateDialog(savedInstanceState: Bundle?) : Dialog {
 
