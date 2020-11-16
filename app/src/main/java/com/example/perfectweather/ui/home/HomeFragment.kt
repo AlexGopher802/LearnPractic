@@ -53,8 +53,13 @@ class HomeFragment : Fragment() {
         val editor = sharePref?.edit()
 
         var citys = Array<String?>(sharePref!!.getInt(MainActivity().FAVORITES_SIZE, 0), {""})
-        for(i in 0..citys.size-1){
-            citys[i] = sharePref!!.getString(MainActivity().FAVORITES_+(i.toString()), "")
+        if(citys.size == 0){
+            citys = Array<String?>(1, {"Москва"})
+        }
+        else{
+            for(i in 0..citys.size-1){
+                citys[i] = sharePref!!.getString(MainActivity().FAVORITES_+(i.toString()), "")
+            }
         }
 
         GlobalScope.launch(Dispatchers.Main) {
