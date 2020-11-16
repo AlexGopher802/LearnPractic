@@ -1,6 +1,7 @@
 package com.example.perfectweather.ui.home
 
 import android.app.Activity
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
@@ -48,11 +49,29 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        var sharePref : SharedPreferences = parentFragment!!.requireContext().getSharedPreferences(MainActivity().PREF_NAME, MainActivity().PRIVATE_MODE)
-        val editor = sharePref.edit()
+        var sharePref = activity?.getSharedPreferences(MainActivity().PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharePref?.edit()
 
-        /*var citys = arrayOfNulls<String>(sharePref.getInt(MainActivity().FAVORITES_SIZE, 0))
-        if(citys.isEmpty()){
+        var citys = Array<String?>(sharePref!!.getInt(MainActivity().FAVORITES_SIZE, 0), {""})
+        //var citys = arrayOfNulls<String>(6)
+
+        textView_debug.text = sharePref!!.getInt(MainActivity().FAVORITES_SIZE, 0).toString() + "\n"// + "\n" + sharePref!!.getInt(MainActivity().FAVORITES_+"0",0).toString()
+        //textView_debug.text = textView_debug.text.toString() + "\n"
+
+
+        for(i in 0..citys.size-1){
+            citys[i] = sharePref!!.getString(MainActivity().FAVORITES_+(i.toString()), "")
+            textView_debug.text = textView_debug.text.toString() + citys[i] + "\n"
+        }
+
+/*
+        citys[0] = sharePref!!.getString(MainActivity().FAVORITES_+"0", "")
+        citys[1] = sharePref!!.getString(MainActivity().FAVORITES_+"1", "")
+        citys[2] = sharePref!!.getString(MainActivity().FAVORITES_+"2", "")
+*/
+
+
+        /*if(citys.isEmpty()){
             textView2.text = "Не выбрано"
         }
         else{
@@ -61,13 +80,19 @@ class HomeFragment : Fragment() {
             }
         }*/
 
-        val adapter = ArrayAdapter(
-            parentFragment!!.requireContext(),
-            android.R.layout.simple_spinner_item,
-            DashboardFragment().cityName
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
-        blood_spinner?.adapter = adapter
+
+
+        GlobalScope.launch(Dispatchers.Main) {
+            val adapter = ArrayAdapter(
+                parentFragment!!.requireContext(),
+                android.R.layout.simple_spinner_item,
+                citys
+                //DashboardFragment().cityName
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+            blood_spinner?.adapter = adapter
+        }
+
 
         blood_spinner.setSelection(sharePref.getInt(MainActivity().SELECT_CITY, 0))
 
@@ -76,24 +101,20 @@ class HomeFragment : Fragment() {
             override fun onItemSelected(parent:AdapterView<*>, view: View, position: Int, id: Long){
                 textView2.text = "Загрузка..."
                 val city : String = parent.getItemAtPosition(position).toString()
-                editor.putInt(MainActivity().SELECT_CITY, position)
-                editor.apply()
+                editor?.putInt(MainActivity().SELECT_CITY, position)
+                editor?.apply()
 
-                if(position == 0){
-                    textView2.text = "Не выбрано"
-                }
-                else{
-                    val apiService = ApiWeather()
-                    GlobalScope.launch(Dispatchers.Main) {
-                        try{
-                            val Weather = apiService.getCurrentWeather(city).await()
-                            textView2.text = Weather.name.toString() + "   " + (Weather.main.temp.toInt() - 273).toString() + "C°"
-                        }
-                        catch (e: Exception){
-                            textView2.text = "Ошибка"
-                        }
+                val apiService = ApiWeather()
+                GlobalScope.launch(Dispatchers.Main) {
+                    try{
+                        val Weather = apiService.getCurrentWeather(city).await()
+                        textView2.text = Weather.name.toString() + "   " + (Weather.main.temp.toInt() - 273).toString() + "C°"
+                    }
+                    catch (e: Exception){
+                        textView2.text = "Ошибка"
                     }
                 }
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>){ }

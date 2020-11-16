@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 import android.R.string
+import android.content.Context
 import android.content.SharedPreferences
 import android.widget.ArrayAdapter
 import com.example.perfectweather.MainActivity
@@ -43,7 +44,7 @@ class DialogWindow : DialogFragment(){
                     count = 0
                     for(i in DashboardFragment().cityName.indices){
                         if(checkItems[i]){
-                            citys[count] = i.toString()
+                            citys[count] = DashboardFragment().cityName[i].toString()
                             count++
                         }
                     }
@@ -51,13 +52,18 @@ class DialogWindow : DialogFragment(){
                     /*
                     var sharePref : SharedPreferences = MainActivity().getSharedPreferences(MainActivity().PREF_NAME, MainActivity().PRIVATE_MODE)
                     val editor = sharePref.edit()
-                    editor.putInt(MainActivity().FAVORITES_SIZE, citys.size)
+                     */
+                    var sharePref = activity?.getSharedPreferences(MainActivity().PREF_NAME, Context.MODE_PRIVATE)
+                    val editor = sharePref?.edit()
+
+
+                    editor?.putInt(MainActivity().FAVORITES_SIZE, citys.size)
 
                     for(i in 0..(citys.size - 1)){
-                        editor.putString(MainActivity().FAVORITES_+i.toString(), citys[i])
+                        editor?.putString(MainActivity().FAVORITES_+i.toString(), citys[i].toString())
                     }
-                    editor.apply()
-                    */
+                    editor?.apply()
+
                 }
                 .setNegativeButton("Отмена"){
                         dialog, _ -> dialog.cancel()

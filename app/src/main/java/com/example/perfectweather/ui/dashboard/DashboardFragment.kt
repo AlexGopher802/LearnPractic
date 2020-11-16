@@ -50,12 +50,12 @@ class DashboardFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-    /*
+
         val mdf = DialogWindow()
         val manager = activity?.supportFragmentManager
         if (manager != null) {
             mdf.show(manager, "myDialog")
         }
-    */
+
     }
 }
