@@ -1,5 +1,7 @@
 package com.example.perfectweather.data.response
 
+import com.google.gson.annotations.SerializedName
+
 data class Weather(
     val base: String,
     val clouds: Clouds,
@@ -12,6 +14,7 @@ data class Weather(
     val sys: Sys,
     val timezone: Int,
     val visibility: Int,
+    @SerializedName("weather")
     val weather: List<WeatherX>,
     val wind: Wind
 )

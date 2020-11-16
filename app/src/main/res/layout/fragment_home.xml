@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,31 +9,29 @@
         android:id="@+id/blood_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:spinnerMode="dialog"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         />
 
     <TextView
-        android:id="@+id/textView_debug"
+        android:id="@+id/weatherTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="debug"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="0.54C°"
+        android:textSize="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+         />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/weatherDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="api"
-        app:layout_constraintBottom_toTopOf="@+id/blood_spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Небольшой дождь°"
+        android:textSize="20dp"
+        android:layout_below="@+id/weatherTemp"
+        android:layout_centerHorizontal="true"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

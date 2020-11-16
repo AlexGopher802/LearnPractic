@@ -49,10 +49,6 @@ class DialogWindow : DialogFragment(){
                         }
                     }
 
-                    /*
-                    var sharePref : SharedPreferences = MainActivity().getSharedPreferences(MainActivity().PREF_NAME, MainActivity().PRIVATE_MODE)
-                    val editor = sharePref.edit()
-                     */
                     var sharePref = activity?.getSharedPreferences(MainActivity().PREF_NAME, Context.MODE_PRIVATE)
                     val editor = sharePref?.edit()
 
@@ -71,8 +67,5 @@ class DialogWindow : DialogFragment(){
             builder.create()
         }?: throw IllegalStateException("Activity cannot be null")
         super.onCreate(savedInstanceState)
-
-
     }
-
 }
